@@ -70,9 +70,6 @@
           <execution>
             <id>report</id>
             <phase>test</phase>
-            <configuration>
-              <dataFile>target/jacoco.exe</dataFile>
-            </configuration>
             <goals>
               <goal>report</goal>
             </goals>
