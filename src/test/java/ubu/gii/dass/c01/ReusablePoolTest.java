@@ -1,63 +1,21 @@
-/**
- * 
- */
 package ubu.gii.dass.c01;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
+class ReusablePoolTest {
 
-
-/**
- * @author alumno
- *
- */
-public class ReusablePoolTest {
-
-	
-	@BeforeAll
-	public static void setUp(){
-	}
-
-	
-	@AfterAll
-	public static void tearDown() throws Exception {
-	}
-
-	/**
-	 * Test method for {@link ubu.gii.dass.c01.ReusablePool#getInstance()}.
-	 */
-        @Test
-        @DisplayName("testGetInstance")
-        @Disabled("Not implemented yet")
-	public void testGetInstance() {
+    @Test
+    @DisplayName("testGetInstance")
+    void testGetInstance() {
+		// Comprobacion de que el pool no es nulo y que se comporta como un singleton
+        ReusablePool pool1 = ReusablePool.getInstance();
+        assertNotNull(pool1, "El pool no debería ser nulo tras la inicialización");
 		
-	}
-
-	/**
-	 * Test method for {@link ubu.gii.dass.c01.ReusablePool#acquireReusable()}.
-	 */
-	@Test
-        @DisplayName("testAcquireReusable")
-        @Disabled("Not implemented yet")
-
-	public void testAcquireReusable() {
-		
-	}
-
-	/**
-	 * Test method for {@link ubu.gii.dass.c01.ReusablePool#releaseReusable(ubu.gii.dass.c01.Reusable)}.
-	 */
-	@Test
-        @DisplayName("testReleaseReusable")
-        @Disabled("Not implemented yet")
-	public void testReleaseReusable() {
-		
-	}
-
+		// Comprobamos que dos llamadas a getInstance devuelven la misma instancia
+        ReusablePool pool2 = ReusablePool.getInstance();
+        assertSame(pool1, pool2, "getInstance debe devolver exactamente la misma instancia (Singleton)");
+    }
 }
