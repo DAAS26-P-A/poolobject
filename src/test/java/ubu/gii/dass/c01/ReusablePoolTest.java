@@ -2,6 +2,8 @@ package ubu.gii.dass.c01;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -33,4 +35,27 @@ class ReusablePoolTest {
             pool.releaseReusable(r);
         }
     }
+	
+	@Test
+    @DisplayName("testAcquireReusableThrowsException")
+    void testAcquireReusableThrowsException() throws Exception {
+        // Modificacion del pool para dejarlo sin instancias libres y comprobar que lanza la excepcion
+        ReusablePool pool = ReusablePool.getInstance();
+        
+        // Vaciamos el pool (asumiendo que tiene tamaño 2)
+        Reusable r1 = pool.acquireReusable();
+        Reusable r2 = pool.acquireReusable();
+        
+        try {
+            // El tercer intento debe lanzar la excepcion
+            assertThrows(NotFreeInstanceException.class, () -> {
+                pool.acquireReusable();
+            }, "Debe lanzar NotFreeInstanceException al no haber instancias libres");
+        } finally {
+            // Restauramos el pool a su estado original para los demas tests
+            pool.releaseReusable(r1);
+            pool.releaseReusable(r2);
+        }
+    }
+	
 }
