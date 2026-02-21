@@ -3,6 +3,7 @@ package ubu.gii.dass.c01;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -56,6 +57,21 @@ class ReusablePoolTest {
             pool.releaseReusable(r1);
             pool.releaseReusable(r2);
         }
+    }
+	
+	@Test
+    @DisplayName("testReleaseReusableSuccess")
+    void testReleaseReusableSuccess() throws Exception {
+        // Modificacion del pool para comprobar que se pueden liberar objetos correctamente sin lanzar excepciones
+        ReusablePool pool = ReusablePool.getInstance();
+        
+        // Extraemos uno para vaciar un hueco
+        Reusable r = pool.acquireReusable();
+        
+        // Restauramos el pool a su estado original para los demas tests
+        assertDoesNotThrow(() -> {
+            pool.releaseReusable(r);
+        }, "No debe lanzar excepcion al liberar una instancia valida que no esta en el pool");
     }
 	
 }
