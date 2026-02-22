@@ -74,4 +74,20 @@ class ReusablePoolTest {
         }, "No debe lanzar excepcion al liberar una instancia valida que no esta en el pool");
     }
 	
+	@Test
+    @DisplayName("testReleaseReusableThrowsException")
+    void testReleaseReusableThrowsException() throws Exception {
+        // Modificacion del pool para comprobar que al intentar liberar un objeto que ya esta en el pool se lanza la excepcion
+        ReusablePool pool = ReusablePool.getInstance();
+        
+        // Sacamos una instancia
+        Reusable r = pool.acquireReusable();
+        
+        assertThrows(DuplicatedInstanceException.class, () -> {
+            pool.releaseReusable(r); // Primera devolucion funciona y deja el pool restaurado
+            pool.releaseReusable(r); // Segunda devolucion lanza excepcion
+        }, "Debe lanzar DuplicatedInstanceException al intentar devolver un objeto que ya esta en el pool");
+		
+    }
+	
 }
